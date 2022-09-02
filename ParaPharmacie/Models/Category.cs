@@ -11,7 +11,7 @@ namespace ParaPharmacie.Models
         [Required(ErrorMessage ="Ce Champ est obligatoire")]
         public string? CatName { get; set; }
         public string? CatPhoto { get; set; }
-
+        [NotMapped]
         public IFormFile File { get; set; }
 
         public int ProId { get; set; }

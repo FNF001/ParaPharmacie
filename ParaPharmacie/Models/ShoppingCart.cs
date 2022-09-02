@@ -5,6 +5,7 @@ namespace ParaPharmacie.Models
 {
     public class ShoppingCart
     {
+        [Key]
         public int CartId { get; set; }
         public int ProId { get; set; }
         [ForeignKey("ProId")]

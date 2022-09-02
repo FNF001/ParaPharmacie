@@ -17,7 +17,7 @@ namespace ParaPharmacie.Models
         public decimal Price { get; set; }
 
         public string ProImage { get; set; }
-
+        [NotMapped]
         public IFormFile File { get; set; }
 
         public int CatId { get; set; }
