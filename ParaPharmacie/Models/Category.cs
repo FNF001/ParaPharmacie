@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParaPharmacie.Models
 {
@@ -12,5 +13,9 @@ namespace ParaPharmacie.Models
         public string? CatPhoto { get; set; }
 
         public IFormFile File { get; set; }
+
+        public int ProId { get; set; }
+        [ForeignKey("ProId")]
+        public virtual ICollection<Product> Product { get; set; }
     }
 }
