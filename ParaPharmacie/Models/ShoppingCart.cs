@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParaPharmacie.Models
 {
@@ -9,8 +10,11 @@ namespace ParaPharmacie.Models
         [ForeignKey("ProId")]
         public virtual Product Product { get; set; }
 
-        public decimal Price { get; set; }
-
+        [Range(1,int.MaxValue,ErrorMessage = "La Valeur Minimale est 1")]
         public int Qty { get; set; }
+
+        public string? UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
