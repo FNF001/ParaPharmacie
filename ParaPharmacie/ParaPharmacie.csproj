@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Admin\" />
+    <Folder Include="wwwroot\category\" />
   </ItemGroup>
 
 </Project>
