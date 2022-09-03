@@ -23,6 +23,11 @@ namespace ParaPharmacie.Controllers
             return View();
         }
 
+        public IActionResult ProductDetailes()
+        {
+            return View();
+        }
+
         public IActionResult Contact()
         {
             return View();
