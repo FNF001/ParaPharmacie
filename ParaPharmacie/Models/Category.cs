@@ -14,8 +14,8 @@ namespace ParaPharmacie.Models
         [NotMapped]
         public IFormFile File { get; set; }
 
-        public int ProId { get; set; }
-        [ForeignKey("ProId")]
+        //public int ProId { get; set; }
+        //[ForeignKey("ProId")]
         public virtual ICollection<Product> Product { get; set; }
     }
 }

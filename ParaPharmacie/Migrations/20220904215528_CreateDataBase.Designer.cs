@@ -12,7 +12,7 @@ using ParaPharmacie.Data;
 namespace ParaPharmacie.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20220902212838_CreateDataBase")]
+    [Migration("20220904215528_CreateDataBase")]
     partial class CreateDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

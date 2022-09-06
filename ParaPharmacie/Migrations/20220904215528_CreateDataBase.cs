@@ -190,7 +190,8 @@ namespace ParaPharmacie.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProId = table.Column<int>(type: "int", nullable: false),
+                    ProId = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
                     ProName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -205,13 +206,7 @@ namespace ParaPharmacie.Migrations
                         column: x => x.CatId,
                         principalTable: "Categories",
                         principalColumn: "CatId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_ProId",
-                        column: x => x.ProId,
-                        principalTable: "Categories",
-                        principalColumn: "CatId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);                    
                 });
 
             migrationBuilder.CreateTable(
