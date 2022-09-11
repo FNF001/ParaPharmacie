@@ -6,7 +6,7 @@ namespace ParaPharmacie.Models
     {
         [Key]
         public int CoId { get; set; }
-
+        [Required(ErrorMessage ="Ce champ est obligatoire")]
         public string? Name { get; set; }
         [Required(ErrorMessage ="Ce champ est obligatoire")]
         [EmailAddress]

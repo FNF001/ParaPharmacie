@@ -33,7 +33,7 @@
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center h-100">
                     <a class="text-body mr-3" href="">About</a>
-                    <a class="text-body mr-3" href="">Contact</a>
+                    <a class="text-body mr-3" href="Home/Contact">Contact</a>
                     <a class="text-body mr-3" href="">Help</a>
                     <a class="text-body mr-3" href="">FAQs</a>
                 </div>
@@ -145,17 +145,17 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
-                            <a asp-action="Product" asp-controller="Home" class="nav-item nav-link">Product</a>
-                            <a asp-action="ProductDetailes" asp-controller="Home" class="nav-item nav-link">Shop Detail</a>
+                            <a href="Home/Index" class="nav-item nav-link active">Home</a>
+                            <a href="Home/Product" class="nav-item nav-link">Product</a>
+                            <a href="Home/ProductDetailes" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a asp-action="Cart" asp-controller="Carts" class="dropdown-item">Shopping Cart</a>
+                                    <a href="Carts/Cart" class="dropdown-item">Shopping Cart</a>
                                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a asp-action="Contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                            <a href="Home/Contact" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a asp-action="Cart" asp-controller="Carts" class="btn px-0">
