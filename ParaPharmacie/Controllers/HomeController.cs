@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ParaPharmacie.Areas.Admin.Controllers;
 using ParaPharmacie.Data;
 using ParaPharmacie.Models;
+using ParaPharmacie.ViewModel;
 using System.Diagnostics;
 
 namespace ParaPharmacie.Controllers
@@ -18,12 +20,17 @@ namespace ParaPharmacie.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexVM{
+                Categories = _context.Categories.ToList(),
+                Products = _context.Products.Take(10).ToList()
+            };
+            return View(model);
         }
 
         public IActionResult Product()
         {
-            return View();
+            var products = _context.Products.ToList();
+            return View(products);
         }
 
         public IActionResult ProductDetailes()

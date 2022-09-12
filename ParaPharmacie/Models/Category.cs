@@ -13,9 +13,6 @@ namespace ParaPharmacie.Models
         public string? CatPhoto { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }
-
-        //public int ProId { get; set; }
-        //[ForeignKey("ProId")]
         public virtual ICollection<Product> Product { get; set; }
     }
 }
