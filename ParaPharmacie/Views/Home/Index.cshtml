@@ -1,4 +1,4 @@
-﻿@model IndexVM     
+﻿@model IndexVM   
 <!-- Carousel Start -->
     <div class="container-fluid mb-3">
         <div class="row px-xl-5">
@@ -105,7 +105,7 @@
             @foreach (var cat in Model.Categories)
             {
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
+                <a class="text-decoration-none" href="/Home/ProductCategory/@cat.CatId">
                     <div class="cat-item d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
                             <img class="img-fluid" src="~/category/@cat.CatPhoto" alt="">
@@ -133,10 +133,10 @@
                         <div class="product-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="~/Product/@prod.ProImage" alt="">
                         <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="/Home/ProductDetailes/@prod.ProId"><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="/Home/SearchProduct?NamePro=@prod.ProName"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                         <div class="text-center py-4">

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Areas.Admin.Controllers;
 using ParaPharmacie.Data;
 using ParaPharmacie.Models;
@@ -18,6 +19,29 @@ namespace ParaPharmacie.Controllers
             _context = context;
         }
 
+        public async Task<List<Product>> GetPage (IQueryable<Product> result, int pagenumber)
+        {
+            const int Pagesize = 2;
+            decimal rowCount = await _context.Products.CountAsync();
+            var pagecount = Math.Ceiling(rowCount / Pagesize);
+            if (pagenumber > pagecount)
+            {
+                pagenumber = 1;
+            }
+            pagenumber = pagenumber <= 0 ? 1 : pagenumber;
+            int skipCount = (pagenumber - 1) * Pagesize;
+            var pageData = await result
+                .Skip(skipCount)
+                .Take(Pagesize)
+                .ToListAsync();
+            ViewBag.CurrentPage = pagenumber;
+            ViewBag.PageCount = pagecount;
+
+            return pageData;
+
+        }
+
+
         public IActionResult Index()
         {
             var model = new IndexVM{
@@ -27,15 +51,30 @@ namespace ParaPharmacie.Controllers
             return View(model);
         }
 
-        public IActionResult Product()
+        public async Task<IActionResult> Product(int page)
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products;
+            var model = await GetPage(products, page);
+            return View(model);
+        }
+
+        public IActionResult ProductCategory(int id)
+        {
+            var products = _context.Products.Where(c => c.CatId == id).ToList();
             return View(products);
         }
 
-        public IActionResult ProductDetailes()
+        public IActionResult SearchProduct(string NamePro)
         {
-            return View();
+            var products = _context.Products.Where(p => p.ProName == NamePro).ToList();
+            return View(products);
+        }
+
+        public IActionResult ProductDetailes(int? id)
+        {
+            var product = _context.Products.Include(x => x.Category)
+                .FirstOrDefault(p => p.ProId == id);
+            return View(product);
         }
 
         public IActionResult Contact()

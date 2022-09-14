@@ -12,8 +12,8 @@ using ParaPharmacie.Data;
 namespace ParaPharmacie.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20220904215528_CreateDataBase")]
-    partial class CreateDataBase
+    [Migration("20220913094413_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,9 +241,6 @@ namespace ParaPharmacie.Migrations
                     b.Property<string>("CatPhoto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProId")
-                        .HasColumnType("int");
-
                     b.HasKey("CatId");
 
                     b.ToTable("Categories");
@@ -265,6 +262,7 @@ namespace ParaPharmacie.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Subject")
@@ -278,7 +276,10 @@ namespace ParaPharmacie.Migrations
             modelBuilder.Entity("ParaPharmacie.Models.Product", b =>
                 {
                     b.Property<int>("ProId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProId"), 1L, 1);
 
                     b.Property<int>("CatId")
                         .HasColumnType("int");
@@ -385,14 +386,8 @@ namespace ParaPharmacie.Migrations
             modelBuilder.Entity("ParaPharmacie.Models.Product", b =>
                 {
                     b.HasOne("ParaPharmacie.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParaPharmacie.Models.Category", null)
                         .WithMany("Product")
-                        .HasForeignKey("ProId")
+                        .HasForeignKey("CatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
