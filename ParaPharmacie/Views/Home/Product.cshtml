@@ -151,9 +151,9 @@
                             <div class="btn-group ml-2">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">10</a>
-                                    <a class="dropdown-item" href="#">20</a>
-                                    <a class="dropdown-item" href="#">30</a>
+                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
+                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
+                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
                                 </div>
                             </div>
                         </div>
@@ -191,14 +191,14 @@
                         <ul class="pagination justify-content-center">
                             @if (ViewBag.CurrentPage - 1 > 0 )
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Product/?page=@(ViewBag.CurrentPage - 1)">Previous</a></li>
+                                <li class="page-item"><a class="page-link" href="/Home/Product/?page=@(ViewBag.CurrentPage - 1)&pagesize=@((ViewBag.pagesize is null)?0:ViewBag.pagesize)">Previous</a></li>
                             }
                             
                             <li class="page-item active"><a class="page-link">@(ViewBag.CurrentPage)</a></li>
 
                             @if (ViewBag.CurrentPage + 1 <= ViewBag.PageCount)
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Product/?page=@(ViewBag.CurrentPage + 1)">Next</a></li>
+                                <li class="page-item"><a class="page-link" href="/Home/Product/?page=@(ViewBag.CurrentPage + 1)&pagesize=@((ViewBag.pagesize is null)?5:ViewBag.pagesize)">Next</a></li>
                             }
                             
                         </ul>

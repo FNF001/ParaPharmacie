@@ -5,6 +5,7 @@ using ParaPharmacie.Data;
 using ParaPharmacie.Models;
 using ParaPharmacie.ViewModel;
 using System.Diagnostics;
+using System.Drawing.Printing;
 
 namespace ParaPharmacie.Controllers
 {
@@ -19,9 +20,9 @@ namespace ParaPharmacie.Controllers
             _context = context;
         }
 
-        public async Task<List<Product>> GetPage (IQueryable<Product> result, int pagenumber)
+        public async Task<List<Product>> GetPage (IQueryable<Product> result, int pagenumber,int pagesize)
         {
-            const int Pagesize = 2;
+            int Pagesize = pagesize;
             decimal rowCount = await _context.Products.CountAsync();
             var pagecount = Math.Ceiling(rowCount / Pagesize);
             if (pagenumber > pagecount)
@@ -51,10 +52,18 @@ namespace ParaPharmacie.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Product(int page)
+        public async Task<IActionResult> Product(int page, int pagesize)
         {
+            if (pagesize == 0)
+            {
+                pagesize = 5;
+            }
+            if (pagesize != 5)
+            {
+                ViewBag.pagesize = pagesize;
+            }
             var products = _context.Products;
-            var model = await GetPage(products, page);
+            var model = await GetPage(products, page, pagesize);
             return View(model);
         }
 
@@ -66,7 +75,7 @@ namespace ParaPharmacie.Controllers
 
         public IActionResult SearchProduct(string NamePro)
         {
-            var products = _context.Products.Where(p => p.ProName == NamePro).ToList();
+            var products = _context.Products.Where(p => p.ProName.Contains(NamePro)).ToList();
             return View(products);
         }
 

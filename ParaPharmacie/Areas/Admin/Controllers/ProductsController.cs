@@ -15,10 +15,42 @@ namespace ParaPharmacie.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        public async Task<List<Product>> GetPage(IQueryable<Product> result, int pagenumber, int pagesize)
         {
-            var products = _context.Products.Include(c => c.Category).ToList();
-            return View(products);
+            int Pagesize = pagesize;
+            decimal rowCount = await _context.Products.CountAsync();
+            var pagecount = Math.Ceiling(rowCount / Pagesize);
+            if (pagenumber > pagecount)
+            {
+                pagenumber = 1;
+            }
+            pagenumber = pagenumber <= 0 ? 1 : pagenumber;
+            int skipCount = (pagenumber - 1) * Pagesize;
+            var pageData = await result
+                .Skip(skipCount)
+                .Take(Pagesize)
+                .ToListAsync();
+            ViewBag.CurrentPage = pagenumber;
+            ViewBag.PageCount = pagecount;
+
+            return pageData;
+
+        }
+
+        public async Task<IActionResult> Index(int page, int pagesize)
+        {
+            if (pagesize == 0)
+            {
+                pagesize = 3;
+            }
+            if (pagesize != 3)
+            {
+                ViewBag.pagesize = pagesize;
+            }
+            var products = _context.Products.Include(c => c.Category);
+            var model = await GetPage(products, page, pagesize);
+            return View(model);
         }
         [HttpGet]
         public IActionResult Create()
@@ -86,7 +118,11 @@ namespace ParaPharmacie.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
+        public IActionResult SearchProduct(string NamePro)
+        {
+            var products = _context.Products.Include(c => c.Category).Where(p => p.ProName.Contains(NamePro)).ToList();
+            return View(products);
+        }
 
     }
 }

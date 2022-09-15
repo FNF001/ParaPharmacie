@@ -38,29 +38,11 @@
                                     </td>
                                 </tr>
                             }
-                           
+
                         </tbody>
                     </table>
-                    
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div>
-    </div>
-    <div>
-        
-            <ul class="pagination justify-content-center">
-                @if (ViewBag.CurrentPage - 1 > 0)
-                {
-                    <li class="page-item"><a class="page-link" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage - 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Previous</a></li>
-                }
-
-                <li class="page-item active"><a class="page-link">@(ViewBag.CurrentPage)</a></li>
-
-                @if (ViewBag.CurrentPage + 1 <= ViewBag.PageCount)
-                {
-                    <li class="page-item"><a class="page-link" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage + 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Next</a></li>
-                }
-
-            </ul>
     </div>
 </section>
