@@ -4,22 +4,19 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Products</h3>
-                   
-                    
-                    <div class="box-tools">
-                        <a asp-action="Create" asp-controller="Products" asp-area="Admin"
-                           class="btn btn-info btn-sm">Add Product</a>
+                    <div>
+                        <h3 class="box-title">Products</h3>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Showing
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="showing">
+                        <ul class="dropdown-menu" style="right: auto;left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);transform: translate(-50%, 0)" aria-labelledby="showing">
                             @if (ViewBag.pagesize == 10)
                             {
-                                <li class="disabled"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a></li>
+                                <li class="active"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a></li>
                             }
                             else
                             {
@@ -30,7 +27,7 @@
                             }
                             @if (ViewBag.pagesize == 20)
                             {
-                                <li class="disabled"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a></li>
+                                <li class="active"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a></li>
                             }
                             else
                             {
@@ -41,7 +38,7 @@
                             }
                             @if (ViewBag.pagesize == 30)
                             {
-                                <li class="disabled"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a></li>
+                                <li class="active"><a class="dropdown-item" href="/Admin/Products/Index/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a></li>
                             }
                             else
                             {
@@ -52,6 +49,14 @@
                             }
                         </ul>
                     </div>
+
+
+                    <div class="box-tools">
+                        <a asp-action="Create" asp-controller="Products" asp-area="Admin"
+                           class="btn btn-info btn-sm">Add Product</a>
+                    </div>
+
+                    
 
 
                 </div><!-- /.box-header -->

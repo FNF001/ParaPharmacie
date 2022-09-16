@@ -151,9 +151,31 @@
                             <div class="btn-group ml-2">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
-                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
-                                    <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
+                                     @if (ViewBag.pagesize == 10)
+                                     {
+                                        <a class="dropdown-item active" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
+                                     }
+                                     else
+                                     {
+                                        <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
+                                     }
+                                     @if (ViewBag.pagesize == 20)
+                                     {
+                                        <a class="dropdown-item active" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
+                                     }
+                                     else
+                                     {
+                                        <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
+                                     }
+                                     @if (ViewBag.pagesize == 30)
+                                     {
+                                        <a class="dropdown-item active" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
+                                     }
+                                     else
+                                     {
+                                        <a class="dropdown-item" href="/Home/Product/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
+                                     }
+                                    
                                 </div>
                             </div>
                         </div>

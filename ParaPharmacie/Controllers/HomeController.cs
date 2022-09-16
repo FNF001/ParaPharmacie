@@ -46,6 +46,7 @@ namespace ParaPharmacie.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.activepage = "Index"; 
             var model = new IndexVM{
                 Categories = _context.Categories.ToList(),
                 Products = _context.Products.Take(10).ToList()
@@ -55,6 +56,7 @@ namespace ParaPharmacie.Controllers
 
         public async Task<IActionResult> Product(int page, int pagesize)
         {
+            ViewBag.activepage = "Product";
             if (pagesize == 0)
             {
                 pagesize = 5;
@@ -70,6 +72,7 @@ namespace ParaPharmacie.Controllers
 
         public async Task<IActionResult> ProductCategory(int id, int page, int pagesize)
         {
+            ViewBag.activepage = "Product";
             if (id != 0)
             {
                 ViewBag.id = id;
@@ -93,12 +96,14 @@ namespace ParaPharmacie.Controllers
 
         public IActionResult SearchProduct(string NamePro)
         {
+            ViewBag.activepage = "Product";
             var products = _context.Products.Where(p => p.ProName.Contains(NamePro)).ToList();
             return View(products);
         }
 
         public IActionResult ProductDetailes(int? id)
         {
+            ViewBag.activepage = "ProductDetailes";
             var product = _context.Products.Include(x => x.Category)
                 .FirstOrDefault(p => p.ProId == id);
             return View(product);
@@ -106,12 +111,14 @@ namespace ParaPharmacie.Controllers
 
         public IActionResult Contact()
         {
+            ViewBag.activepage = "Contact";
             return View();
         }
 
         [HttpPost]
         public IActionResult Contact (Contact model)
         {
+            ViewBag.activepage = "Contact";
             if (ModelState.IsValid)
             {
                 _context.Add(model);
