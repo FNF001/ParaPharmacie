@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Areas.Admin.Controllers;
 using ParaPharmacie.Data;
@@ -67,10 +68,27 @@ namespace ParaPharmacie.Controllers
             return View(model);
         }
 
-        public IActionResult ProductCategory(int id)
+        public async Task<IActionResult> ProductCategory(int id, int page, int pagesize)
         {
-            var products = _context.Products.Where(c => c.CatId == id).ToList();
-            return View(products);
+            if (id != 0)
+            {
+                ViewBag.id = id;
+            }
+            if (id == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            if (pagesize == 0)
+            {
+                pagesize = 5;
+            }
+            if (pagesize != 5)
+            {
+                ViewBag.pagesize = pagesize;
+            }
+            var products = _context.Products.Where(c => c.CatId == id);
+            var model = await GetPage(products, page, pagesize);
+            return View(model);
         }
 
         public IActionResult SearchProduct(string NamePro)
