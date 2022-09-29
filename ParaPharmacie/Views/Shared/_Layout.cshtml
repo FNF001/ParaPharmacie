@@ -140,7 +140,7 @@
                             else 
                             {
                             <a href="/Home/Index" class="nav-item nav-link">Home</a>
-                            }
+                            }                            
                             @if (ViewBag.activepage == "Product")
                             {
                             <a href="/Home/Product" class="nav-item nav-link active">Products</a>
@@ -172,6 +172,30 @@
                             else
                             {
                             <a href="/Home/Contact" class="nav-item nav-link">Contact</a>
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <span class="nav-item nav-link"> Account : @User.Identity.Name</span>
+                                <a href="/Accounts/Logout" class="nav-item nav-link">Logout</a>
+                            }
+                            else
+                            {
+                                @if (ViewBag.activepage == "Login")
+                                {
+                                    <a href="/Accounts/Login" class="nav-item nav-link active">Login</a>
+                                }
+                                else
+                                {
+                                    <a href="/Accounts/Login" class="nav-item nav-link">Login</a>
+                                }
+                                @if (ViewBag.activepage == "Register")
+                                {
+                                    <a href="/Accounts/Register" class="nav-item nav-link active">Register</a>
+                                }
+                                else
+                                {
+                                    <a href="/Accounts/Register" class="nav-item nav-link">Register</a>
+                                }
                             }
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
