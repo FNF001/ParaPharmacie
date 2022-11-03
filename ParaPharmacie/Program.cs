@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Data;
@@ -37,13 +38,32 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseAuthentication();
 
+//app.UseEndpoints(endpoints =>
+//{
+
+//    endpoints.MapDefaultControllerRoute();
+//    endpoints.MapAreaControllerRoute(
+//        name: "area",
+//        areaName: "Admin",
+//        pattern: "{area}/{controller=Home}/{action=Index}/{id?}");    
+//});
+
 app.MapControllerRoute(
     name: "Admin",
     pattern: "{area=exists}/{controller=Home}/{action=Index}/{id?}");
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+
+
+
+
+
 
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ParaPharmacie.Controllers
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,6 +28,8 @@
 </head>
 
 <body>
+
+
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -198,14 +201,14 @@
                                 }
                             }
                         </div>
-                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block"> 
                             <a href="/Carts/Cart" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span id="Qty-Heart" class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"></span>
                             </a>
                             <a href="/Carts/Cart" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span id="Qty-Shopping-Cart" class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"></span>
                             </a>
                         </div>
                     </div>
@@ -304,7 +307,15 @@
 
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>
-
+    <script type="text/jscript">
+        var url = "/Carts/GetTotalQty";
+        $.get(url,null, function (data) {
+            $("#Qty-Heart").html(data)
+        });
+        $.get(url, null, function (data) {
+            $("#Qty-Shopping-Cart").html(data)
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

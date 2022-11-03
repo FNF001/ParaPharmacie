@@ -58,7 +58,6 @@ namespace ParaPharmacie.Areas.Admin.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories,"CatId","CatName");
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Create(Product model, IFormFile File)
         {
