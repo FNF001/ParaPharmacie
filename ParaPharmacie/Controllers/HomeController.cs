@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Areas.Admin.Controllers;
 using ParaPharmacie.Data;
@@ -10,10 +12,17 @@ using System.Drawing.Printing;
 
 namespace ParaPharmacie.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly EcommerceContext _context;
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            ViewBag.categories = GetGategories() ; 
+            base.OnActionExecuting(filterContext);
+        }
 
         public HomeController(ILogger<HomeController> logger, EcommerceContext context)
         {
@@ -51,6 +60,8 @@ namespace ParaPharmacie.Controllers
                 Categories = _context.Categories.ToList(),
                 Products = _context.Products.Take(10).ToList()
             };
+            // To get the categories when the app starts
+            ViewBag.categories = GetGategories();
             return View(model);
         }
 
@@ -69,7 +80,7 @@ namespace ParaPharmacie.Controllers
             var model = await GetPage(products, page, pagesize);
             return View(model);
         }
-
+        [Route("Home/ProductCategory")]
         public async Task<IActionResult> ProductCategory(int id, int page, int pagesize)
         {
             ViewBag.activepage = "Product";
@@ -126,6 +137,14 @@ namespace ParaPharmacie.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+
+        public SelectList GetGategories()
+        {
+            SelectList Categories = new SelectList(_context.Categories, "CatId", "CatName");
+            ViewBag.categories = Categories;
+            return Categories;
         }
 
 

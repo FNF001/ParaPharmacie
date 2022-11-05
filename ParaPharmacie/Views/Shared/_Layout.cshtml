@@ -1,5 +1,4 @@
-﻿@using ParaPharmacie.Controllers
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -116,13 +115,19 @@
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
-                    @*<div class="navbar-nav w-100">
-                        
-                        @foreach (var cat in Model.Categories)
+                    <div class="navbar-nav w-100">
+
+                       
+                        @foreach (var item in ViewBag.categories as SelectList)
                         {
-                            <a href="" class="nav-item nav-link">@cat.CatName</a>
-                        }    
-                    </div>*@
+                            <a id="ListCategories" asp-action="ProductCategory" asp-controller="Home" asp-route-id="@item.Value" class="nav-item nav-link">@item.Text</a>
+                        }
+
+
+                        @*<select id="ListCategories"" type="text" class="nav-item nav-link"></select>*@
+
+                        @*@Html.DropDownList("CatName",ViewBag.categories as SelectList,new { id = "#ListCategories" })*@
+                    </div>
                 </nav>
             </div>
             <div class="col-lg-9">
@@ -309,13 +314,18 @@
     <script src="~/js/main.js"></script>
     <script type="text/jscript">
         var url = "/Carts/GetTotalQty";
+        var urlCategories = "/Home/GetGategories";
         $.get(url,null, function (data) {
             $("#Qty-Heart").html(data)
         });
         $.get(url, null, function (data) {
             $("#Qty-Shopping-Cart").html(data)
         });
+        $.get(urlCategories, null, function (data) {
+            $("#ListCategories").select();
+        });       
     </script>
+   
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

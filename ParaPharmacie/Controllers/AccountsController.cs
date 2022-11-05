@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ParaPharmacie.Data;
 using ParaPharmacie.Models;
 using ParaPharmacie.ViewModel;
 
@@ -9,11 +13,19 @@ namespace ParaPharmacie.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly EcommerceContext _context;
 
-        public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            ViewBag.categories = GetGategories();
+            base.OnActionExecuting(filterContext);
+        }
+
+        public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, EcommerceContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
         public IActionResult Login()
         {
@@ -75,6 +87,13 @@ namespace ParaPharmacie.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public SelectList GetGategories()
+        {
+            SelectList Categories = new SelectList(_context.Categories, "CatId", "CatName");
+            ViewBag.categories = Categories;
+            return Categories;
         }
 
     }

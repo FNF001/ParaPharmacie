@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Data;
 using ParaPharmacie.Models;
@@ -12,7 +14,12 @@ namespace ParaPharmacie.Controllers
     {
         private readonly EcommerceContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public int _TotalQty ;
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            ViewBag.categories = GetGategories();
+            base.OnActionExecuting(filterContext);
+        }
 
         public CartsController(EcommerceContext context, UserManager<ApplicationUser> userManager)
         {
@@ -96,6 +103,13 @@ namespace ParaPharmacie.Controllers
                 TotalQty = TotalQty + item.Qty;
             }
             return TotalQty;
+        }
+
+        public SelectList GetGategories()
+        {
+            SelectList Categories = new SelectList(_context.Categories, "CatId", "CatName");
+            ViewBag.categories = Categories;
+            return Categories;
         }
     }
 }
