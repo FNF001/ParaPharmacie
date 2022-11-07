@@ -9,6 +9,7 @@ using ParaPharmacie.ViewModel;
 
 namespace ParaPharmacie.Controllers
 {
+    [Route("Accounts/[action]")]
     public class AccountsController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -67,7 +68,7 @@ namespace ParaPharmacie.Controllers
                     Id = model.Id,
                     UserName = model.Email,
                     Email = model.Email,
-                    Name = model.Name,
+                    Name = model.Name
                 };
                 user.Id = Guid.NewGuid().ToString();
                 var result = await _userManager.CreateAsync(user, model.Password);

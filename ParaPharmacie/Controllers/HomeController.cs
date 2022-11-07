@@ -12,7 +12,7 @@ using System.Drawing.Printing;
 
 namespace ParaPharmacie.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -51,7 +51,6 @@ namespace ParaPharmacie.Controllers
             return pageData;
 
         }
-
 
         public IActionResult Index()
         {

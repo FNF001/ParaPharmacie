@@ -17,7 +17,11 @@ namespace ParaPharmacie.Data
                 public DbSet<Contact> Contacts { get; set; }
 
                 public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-    
-    
+
+                public DbSet<Order> Orders { get; set; }
+
+                public DbSet<OrderDetail> OrdersDetails { get; set; }
+
+
     }    
 }

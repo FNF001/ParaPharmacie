@@ -28,9 +28,18 @@ namespace ParaPharmacie.Controllers
         }
         public async Task<IActionResult> Cart()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var result = _context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id).ToList();
-            return View(result);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var CartItemsAllDefined = _context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id).ToList();
+                var CartItems = GetShoppingCartsByUser(CartItemsAllDefined, user);
+                return View(CartItems);
+            }
+            catch
+            {
+                return RedirectToAction("Login","Accounts");
+            }
+
         }
         
         [HttpPost]
@@ -47,6 +56,14 @@ namespace ParaPharmacie.Controllers
                 Qty = qty
             };
             var shopcart = _context.ShoppingCarts.FirstOrDefault(u => u.UserId == user.Id && u.ProId == model.ProId);
+            
+            // Check if shopping cart submitted in OrderDetails or not
+            var CartIDs_ordersDetails = _context.OrdersDetails.Select(x => x.CartId).ToList();
+            bool Submitted = false; 
+            foreach (var item in CartIDs_ordersDetails)
+            {
+                if (shopcart.CartId == item) Submitted = true;
+            }
 
             if (qty <= 0)
             {
@@ -54,8 +71,10 @@ namespace ParaPharmacie.Controllers
             }
             if(shopcart == null)
               _context.ShoppingCarts.Add(cart);
-            else
-                shopcart.Qty += model.Qty;
+            else if (Submitted == false)
+               shopcart.Qty += model.Qty;
+            else if (Submitted = true)
+              _context.ShoppingCarts.Add(cart);
 
             _context.SaveChanges();
 
@@ -68,7 +87,7 @@ namespace ParaPharmacie.Controllers
             
             var user = await _userManager.GetUserAsync(User);
 
-            var shopcart = _context.ShoppingCarts.FirstOrDefault(u => u.UserId == user.Id && u.CartId == id);
+            var shopcart = _context.ShoppingCarts.FirstOrDefault(u => u.UserId == user.Id && u.CartId == id );
 
             if (shopcart != null)
             {
@@ -97,8 +116,9 @@ namespace ParaPharmacie.Controllers
         {
             int TotalQty = 0;
             var user = await _userManager.GetUserAsync(User);
-            var result = _context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id).ToList();
-            foreach (var item in result)
+            var CartItemsAllDefined = _context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id).ToList();
+            var CartItems = GetShoppingCartsByUser(CartItemsAllDefined, user);
+            foreach (var item in CartItems)
             {
                 TotalQty = TotalQty + item.Qty;
             }
@@ -111,5 +131,18 @@ namespace ParaPharmacie.Controllers
             ViewBag.categories = Categories;
             return Categories;
         }
+
+        public List<ShoppingCart> GetShoppingCartsByUser(List<ShoppingCart> CartItems, ApplicationUser user)
+        {
+            var ShoppingCartsByUser = CartItems;
+            var CartIDs_ordersDetails = _context.OrdersDetails.Select(x => x.CartId).ToList();
+
+            foreach (var item in CartIDs_ordersDetails)
+            {
+                ShoppingCartsByUser.Remove(_context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id && u.CartId == item).FirstOrDefault());
+            }
+            return ShoppingCartsByUser;
+        }
+
     }
 }

@@ -1,0 +1,126 @@
+﻿@model Order
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="#">Home</a>
+                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <span class="breadcrumb-item active">Checkout</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<form asp-action="AddressAndPayment" asp-controller="Checkouts" method="post" asp-route-Total=@(ViewBag.TotalCartPrice + 10)>
+<!-- Checkout Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-8">
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
+            <div class="bg-light p-30 mb-5">
+                <div class="row"> 
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-6 form-group">
+                        <label>First Name</label>
+                            <input class="form-control" type="text" placeholder="Ali" asp-for="FirstName">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Last Name</label>
+                        <input class="form-control" type="text" placeholder="Farid" asp-for="LastName">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>E-mail</label>
+                        <input class="form-control" type="text" placeholder="example@email.com" asp-for="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Mobile Number</label>
+                        <input class="form-control" type="text" placeholder="+21652102514" asp-for="PhoneNumber">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Address Line 1</label>
+                        <input class="form-control" type="text" placeholder="123 Street" asp-for="AddressLine1">
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Address Line 2</label>
+                        <input class="form-control" type="text" placeholder="123 Street" asp-for="AddressLine2">
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                        </div>
+                    <div class="col-md-6 form-group">
+                        <label>Country</label>
+                        <select class="custom-select" asp-for="Country">
+                            <option selected>Tunisia</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>City</label>
+                        <input class="form-control" type="text" placeholder="Tunis" asp-for="City">
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>State</label>
+                        <input class="form-control" type="text" placeholder="Ariana" asp-for="State">
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>ZIP Code</label>
+                        <input class="form-control" type="text" placeholder="123" asp-for="ZIPCode">
+                        <span asp-validation-for="ZIPCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+            <div class="bg-light p-30 mb-5">
+                <div class="border-bottom">
+                    <h6 class="mb-3">Products</h6>
+                        @foreach (var item in ViewBag.CartItems as List<ShoppingCart>)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <p>@item.Product.ProName</p>
+                                <p>@item.Product.Price TND</p>
+                            </div>
+                        }
+                    
+                </div>
+                
+                <div class="border-bottom pt-3 pb-2">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h6>Subtotal</h6>
+                        <h6>@ViewBag.TotalCartPrice TND</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Shipping</h6>
+                        <h6 class="font-weight-medium">10 TND</h6>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5>Total</h5>
+                        <h5>@(ViewBag.TotalCartPrice + 10) TND</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                <div class="bg-light p-30">
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="payment" id="directcheck" checked>
+                                <label class="custom-control-label" for="directcheck">Cash on delivery / Paiement &agrave; la livraison</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Submit Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<!-- Checkout End -->
