@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model OrderVM
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -116,7 +116,13 @@
                                 <label class="custom-control-label" for="directcheck">Cash on delivery / Paiement &agrave; la livraison</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Submit Order</button>
+                        @if (@ViewBag.TotalCartPrice == 0 ){
+                            <button type="submit" disabled class="btn btn-block btn-primary font-weight-bold py-3">Submit Order</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Submit Order</button>
+                        }
                 </div>
             </div>
         </div>

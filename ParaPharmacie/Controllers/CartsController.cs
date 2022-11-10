@@ -59,10 +59,13 @@ namespace ParaPharmacie.Controllers
             
             // Check if shopping cart submitted in OrderDetails or not
             var CartIDs_ordersDetails = _context.OrdersDetails.Select(x => x.CartId).ToList();
-            bool Submitted = false; 
-            foreach (var item in CartIDs_ordersDetails)
+            bool Submitted = false;
+            if (shopcart != null)
             {
-                if (shopcart.CartId == item) Submitted = true;
+                foreach (var item in CartIDs_ordersDetails)
+                {
+                    if (shopcart.CartId == item) Submitted = true;
+                }
             }
 
             if (qty <= 0)

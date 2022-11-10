@@ -88,9 +88,18 @@
                         <h5>Total</h5>
                         <h5>@(TotalCartPrice + 10) TND</h5>
                     </div>
-                    <form asp-action="Checkout" asp-controller="Checkouts" method="post">
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
-                    </form>
+                    @if (TotalCartPrice == 0)
+                    {
+                        <form asp-action="Checkout" asp-controller="Checkouts" method="post">
+                            <button disabled class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Checkout" asp-controller="Checkouts" method="post">
+                            <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        </form>
+                    }
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.EntityFrameworkCore;
 using ParaPharmacie.Data;
 using ParaPharmacie.Models;
+using ParaPharmacie.ViewModel;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Reflection.Emit;
@@ -54,18 +55,14 @@ namespace ParaPharmacie.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddressAndPayment(Order model)
+        public async Task<IActionResult> AddressAndPayment(OrderVM model)
         {
             decimal TotalCartPrice = 0;
             int TotalProd = 0;
             int TotalQty = 0;
             var user = await _userManager.GetUserAsync(User);
-            model.UserId = user.Id;
-            model.ApplicationUser = user;
             var CartItemsAllDefined = _context.ShoppingCarts.Include(p => p.Product).Where(u => u.UserId == user.Id).ToList();
             var CartItems = GetShoppingCartsByUser(CartItemsAllDefined, user);
-            model.OrderItems = CartItems;
-            model.OrderDate = DateTime.Now;
             foreach (var item in CartItems)
             {
                 TotalCartPrice += item.Product.Price * item.Qty;
@@ -78,8 +75,8 @@ namespace ParaPharmacie.Controllers
             ViewBag.TotalCartPrice = TotalCartPrice;
 
 
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
 
                 var order = new Order
                 {
@@ -113,8 +110,8 @@ namespace ParaPharmacie.Controllers
                 return RedirectToAction("Complete",
                     new { id = order.OrderId });
 
-            //}
-            //return View("Checkout",model);
+            }
+            return View("Checkout",model);
 
         }
 

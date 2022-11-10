@@ -162,14 +162,6 @@
                             {
                             <a href="/Home/Product" class="nav-item nav-link">Product details</a>
                             }
-                                                       
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
-                                <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="/Carts/Cart" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
                             @if (ViewBag.activepage == "Contact")
                             {
                             <a href="/Home/Contact" class="nav-item nav-link active">Contact</a>
@@ -180,7 +172,12 @@
                             }
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <span class="nav-item nav-link"> Account : @User.Identity.Name</span>
+                                <span class="nav-item nav-link">Account : @User.Identity.Name</span>
+                                if (User.IsInRole("Admin")==true) 
+                                {
+                                    <span class="nav-item nav-link"> Role : Admin </span>
+                                    <a href="/Admin/Home/Index" class="nav-item nav-link">Dashbord</a>
+                                }     
                                 <a href="/Accounts/Logout" class="nav-item nav-link">Logout</a>
                             }
                             else
@@ -220,7 +217,6 @@
     </div>
     <!-- Navbar End -->
             @RenderBody()
-        
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
         <div class="row px-xl-5 pt-5">

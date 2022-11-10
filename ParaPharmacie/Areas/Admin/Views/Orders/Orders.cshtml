@@ -1,0 +1,101 @@
+﻿@model List<Order>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div>
+                        <h3 class="box-title">Products</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Showing
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" style="right: auto;left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);transform: translate(-50%, 0)" aria-labelledby="showing">
+                            @if (ViewBag.pagesize == 10)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
+
+                                </li>
+                            }
+                            @if (ViewBag.pagesize == 20)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
+
+                                </li>
+                            }
+                            @if (ViewBag.pagesize == 30)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
+
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Order Date</th>
+                                <th>User Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.OrderDate</td>
+                                    <td>@item.ApplicationUser.UserName</td>
+                                    <td>
+                                        <a asp-action="OrdersDetails" asp-controller="Orders" asp-route-id="@item.OrderId" class="btn btn-primary btn-sm">Order Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+    <div class="text-center">
+        <nav>
+            <ul class="pagination">
+                @if (ViewBag.CurrentPage - 1 > 0)
+                {
+                    <li class="page-item"><a class="page-link" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage - 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Previous</a></li>
+                }
+
+                <li class="page-item active"><a class="page-link">@(ViewBag.CurrentPage)</a></li>
+
+                @if (ViewBag.CurrentPage + 1 <= ViewBag.PageCount)
+                {
+                    <li class="page-item"><a class="page-link" href="/Admin/Orders/Orders/?page=@(ViewBag.CurrentPage + 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Next</a></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+
+</section>

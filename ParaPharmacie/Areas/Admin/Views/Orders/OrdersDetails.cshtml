@@ -1,0 +1,112 @@
+﻿@model List<OrderDetail>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div>
+                        <h3 class="box-title">Products</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Showing
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" style="right: auto;left: 50%;-webkit-transform: translate(-50%, 0);-o-transform: translate(-50%, 0);transform: translate(-50%, 0)" aria-labelledby="showing">
+                            @if (ViewBag.pagesize == 10)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=10">10</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=10">10</a>
+
+                                </li>
+                            }
+                            @if (ViewBag.pagesize == 20)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=20">20</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=20">20</a>
+
+                                </li>
+                            }
+                            @if (ViewBag.pagesize == 30)
+                            {
+                                <li class="active"><a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=30">30</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage)&pagesize=30">30</a>
+
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="box-tools">
+                        <a asp-action="Orders" asp-controller="Orders" asp-area="Admin"
+                           class="btn btn-info btn-sm">Back to Orders</a>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Cart Id</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Order Date</th>
+                                <th>User Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.CartId</td>
+                                    <td>@item.ProName</td>
+                                    <td>@item.Qty</td>
+                                    <td>@item.OrderDate</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        <a asp-action="ChangeOrderStatus" asp-controller="Orders" asp-route-id="@item.OrderDetailId" class="btn btn-primary btn-sm">Change Order Status</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+    <div class="text-center">
+        <nav>
+            <ul class="pagination">
+                @if (ViewBag.CurrentPage - 1 > 0)
+                {
+                    <li class="page-item"><a class="page-link" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage - 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Previous</a></li>
+                }
+
+                <li class="page-item active"><a class="page-link">@(ViewBag.CurrentPage)</a></li>
+
+                @if (ViewBag.CurrentPage + 1 <= ViewBag.PageCount)
+                {
+                    <li class="page-item"><a class="page-link" href="/Admin/Orders/OrdersDetails/?id=@(ViewBag.OrderId)&page=@(ViewBag.CurrentPage + 1)&pagesize=@((ViewBag.pagesize is null)?3:ViewBag.pagesize)">Next</a></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+
+</section>
