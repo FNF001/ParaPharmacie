@@ -12,13 +12,15 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<EcommerceContext>(options => options.UseSqlServer(connectionString));
 
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 5;
-}).AddEntityFrameworkStores<EcommerceContext>();
+}).AddRoles<IdentityRole>().AddEntityFrameworkStores<EcommerceContext>();
+
 
 var app = builder.Build();
 
