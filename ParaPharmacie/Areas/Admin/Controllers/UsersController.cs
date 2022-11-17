@@ -99,14 +99,9 @@ namespace ParaPharmacie.Areas.Admin.Controllers
                                       Email = p.Email,
                                       RoleName = p.RoleNames
                                   }).FirstOrDefault();
-            
 
-            SelectList statusList = new SelectList(new List<SelectListItem>
-                {
-                    new SelectListItem { Selected = false, Text = "Admin" , Value = "1"},
-                    new SelectListItem { Selected = false, Text = "Customer", Value = "2"},
-                }, "Text", "Value", 1);
-            ViewData["RoleList"] = new SelectList(statusList, "Text", "Value");
+
+            ViewData["RoleList"] = new SelectList(_context.Roles, "Id", "Name");
             return View((UsersWithRolesVM)userWithRole);
         }
 
@@ -115,18 +110,11 @@ namespace ParaPharmacie.Areas.Admin.Controllers
         {
             
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            string? ChangedRoleConverted = GetRoleByValue(model.RoleName);
+            var Role = _context.Roles.Find(model.RoleName).Name.ToString();
             List<string> roles = _context.Roles.Select(r => r.Name).ToList();
             var result1 = await _userManager.RemoveFromRolesAsync(user,roles);
-            var result2 = await _userManager.AddToRoleAsync(user, ChangedRoleConverted);
+            var result2 = await _userManager.AddToRoleAsync(user, Role);
             return RedirectToAction("Users");
         }
-        public string GetRoleByValue(string? Status)
-        {
-            if (Status == "1") return "Admin";
-            if (Status == "2") return "Customer";
-            return "";
-        }
-
     }
 }
