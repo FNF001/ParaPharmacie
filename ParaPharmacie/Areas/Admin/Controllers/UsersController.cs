@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using ParaPharmacie.Data;
 using ParaPharmacie.Models;
 using ParaPharmacie.ViewModel;
@@ -14,10 +16,12 @@ namespace ParaPharmacie.Areas.Admin.Controllers
     public class UsersController : Controller
     {
         private readonly EcommerceContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersController(EcommerceContext context)
+        public UsersController(EcommerceContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<List<UsersWithRolesVM>> GetPage(IQueryable<UsersWithRolesVM> result, int pagenumber, int pagesize)
         {
@@ -57,9 +61,9 @@ namespace ParaPharmacie.Areas.Admin.Controllers
                                       Name = user.Name,
                                       UserName = user.UserName,
                                       Email = user.Email,
-                                      RoleNames = (from userRole in _context.Roles
-                                                   join role in _context.Roles on userRole.Id
-                                                       equals role.Id
+                                      RoleNames = (from userRole in _context.UserRoles
+                                                   join role in _context.Roles on userRole.RoleId
+                                                       equals role.Id where userRole.UserId == user.Id
                                                    select role.Name).FirstOrDefault()
                                   }).Select(p => new UsersWithRolesVM()
             {
@@ -73,5 +77,56 @@ namespace ParaPharmacie.Areas.Admin.Controllers
             return View(model);
             
         }
+
+        public IActionResult ChangeUserRole(string? id)
+        {
+            var userWithRole = (from user in _context.Users
+                                  select new
+                                  {
+                                      Id = user.Id,
+                                      Name = user.Name,
+                                      UserName = user.UserName,
+                                      Email = user.Email,
+                                      RoleNames = (from userRole in _context.UserRoles
+                                                   join role in _context.Roles on userRole.RoleId
+                                                       equals role.Id where userRole.UserId == user.Id
+                                                   select role.Name).FirstOrDefault()
+                                  }).Where(p=>p.Id == id).Select(p => new UsersWithRolesVM()
+                                  {
+                                      Id = p.Id,
+                                      Name = p.Name,
+                                      UserName = p.UserName,
+                                      Email = p.Email,
+                                      RoleName = p.RoleNames
+                                  }).FirstOrDefault();
+            
+
+            SelectList statusList = new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Selected = false, Text = "Admin" , Value = "1"},
+                    new SelectListItem { Selected = false, Text = "Customer", Value = "2"},
+                }, "Text", "Value", 1);
+            ViewData["RoleList"] = new SelectList(statusList, "Text", "Value");
+            return View((UsersWithRolesVM)userWithRole);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserRole(string? id, UsersWithRolesVM model)
+        {
+            
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            string? ChangedRoleConverted = GetRoleByValue(model.RoleName);
+            List<string> roles = _context.Roles.Select(r => r.Name).ToList();
+            var result1 = await _userManager.RemoveFromRolesAsync(user,roles);
+            var result2 = await _userManager.AddToRoleAsync(user, ChangedRoleConverted);
+            return RedirectToAction("Users");
+        }
+        public string GetRoleByValue(string? Status)
+        {
+            if (Status == "1") return "Admin";
+            if (Status == "2") return "Customer";
+            return "";
+        }
+
     }
 }
